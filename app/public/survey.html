@@ -184,43 +184,61 @@
 
     $(".submit").on("click", function (event) {
         event.preventDefault();
-
+        console.log("yay");
         var newPerson = {
             name: $("#friend-name").val().trim(),
             photoLink: $("#friend-photo").val().trim(),
-            statment1: $("input[type=radio][name='gaming']:checked").val(),
-            statement2: $("inpute[type=radio][name='adventure']:checked").val(),
-            statement3: $("input[type=radio][name=horror]:checked").val(),
-            statement4: $("input[type=radio][name=animals]:checked").val(),
-            statement5: $("input[type=radio][name=pets]:checked").val(),
-            statement6: $("input[type=radio][name=metal]:checked").val(),
-            statement7: $("input[type=radio][name=rap]:checked").val(),
-            statement8: $("input[type=radio][name=pop]:checked").val(),
-            statement9: $("input[type=radio][name=comics]:checked").val(),
-            statement10: $("input[type=radio][name=starWars]:checked").val()
+            scores: [$("input[type=radio][name='gaming']:checked").val(),
+            $("inpute[type=radio][name='adventure']:checked").val(),
+            $("input[type=radio][name=horror]:checked").val(),
+            $("input[type=radio][name=animals]:checked").val(),
+            $("input[type=radio][name=pets]:checked").val(),
+            $("input[type=radio][name=metal]:checked").val(),
+            $("input[type=radio][name=rap]:checked").val(),
+            $("input[type=radio][name=pop]:checked").val(),
+            $("input[type=radio][name=comics]:checked").val(),
+            $("input[type=radio][name=starWars]:checked").val()]
         };
 
-        console.log(newPerson);
 
         $.post("/api/friends", newPerson,
             function (data) {
-                if (data) {
-                    var modal = $("#myModal");
-                    var span = $("#close")[0];
-                    modal.style.display = "block";
-                    span.onclick = function () {
-                        modal.style.display = "none";
-                    };
-                    window.onclick = function (event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        };
-                    };
-                };
-                $("#friend-name").val("");
-                $("#friend-photo").val("");
+                // if (data) {
+                // var modal = $("#myModal");
+                // var span = $("#close")[0];
+                // modal.style.display = "block";
+                // span.onclick = function () {
+                //     modal.style.display = "none";
+                //     $("#match").append()
+                // };
+                // window.onclick = function (event) {
+                //     if (event.target == modal) {
+                //         modal.style.display = "none";
+                //     };
+                // };
+                friendMatch(newPerson);
+                console.log(newPerson);
+                // };
+                $("#friend-name").empty();
+                $("#friend-photo").empty();
                 $("input:radio").removeAttr("checked");
             });
     });
+
+    function friendMatch(a1) {
+        $.ajax({ url: "/api/friends", method: "GET" })
+            .then(function (friendsData) {
+                for (i = 0; i < friendsData.length; i++) {
+                    if (friendsData.name != newPerson.name) {
+                        for (a = 0; a < friendsData[i].scores.length; a++) {
+                            var b = parseInt(a1.score[a]);
+                            var c = parseInt(friendData[i].scores[a]);
+                            var difference = Math.abs(b - c);
+                            console.log(difference);
+                        }
+                    };
+                };
+            });
+    };
 
 </script>
