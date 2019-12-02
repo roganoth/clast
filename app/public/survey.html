@@ -205,21 +205,9 @@
         $.post("/api/friends", newPerson,
             function (data) {
                 console.log(newPerson);
-                // if (data) {
-                // var modal = $("#myModal");
-                // var span = $("#close")[0];
-                // modal.style.display = "block";
-                // span.onclick = function () {
-                //     modal.style.display = "none";
-                //     $("#match").append()
-                // };
-                // window.onclick = function (event) {
-                //     if (event.target == modal) {
-                //         modal.style.display = "none";
-                //     };
-                // };
-                friendMatch(newPerson);
-                // };
+                if (data) {
+                    friendMatch(newPerson);
+                };
                 $("#friend-name").empty();
                 $("#friend-photo").empty();
                 $("input:radio").removeAttr("checked");
@@ -246,6 +234,18 @@
                     };
                 };
                 console.log(bestFriend);
+                var modal = $("#myModal");
+                var span = $("#close")[0];
+                modal.style.display = "block";
+                span.onclick = function () {
+                    modal.style.display = "none";
+                    $("#match").append()
+                };
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    };
+                };
             });
     };
 
