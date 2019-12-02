@@ -199,8 +199,6 @@
             $("input[type=radio][name=comics]:checked").val(),
             $("input[type=radio][name=starWars]:checked").val()]
         };
-        // console.log(newPerson);
-
 
         $.post("/api/friends", newPerson,
             function (data) {
@@ -219,17 +217,24 @@
             .then(function (friendsData) {
                 var bestScore = 99999;
                 var bestFriend = "";
+                var newPersonTotal;
+                for (d = 0; d < newPerson.scores.length; d++) {
+                    newPersonTotal += newPerson.scores[d];
+                }
                 for (i = 0; i < friendsData.length; i++) {
                     if (friendsData[i].name != newPerson.name) {
                         var thisFriendScore = 0;
+                        var scoreSum;
                         for (a = 0; a < friendsData[i].scores.length; a++) {
-                            var b = parseInt(a1.score[a]);
-                            var c = parseInt(friendData[i].scores[a]);
+                            //var b = parseInt(a1.scores[a]);
+                            var b = parseInt(newPersonTotal);
+                            scoreSum += friendsData[i].scores[a];
+                            //var c = parseInt(friendData[i].scores[a]);
+                            var c = parseInt(scoreSum);
                             thisFriendScore += Math.abs(b - c);
-                            console.log(difference);
                         }
                         if (bestScore > thisFriendScore) {
-                            bestFriend = friendsData[i].name;
+                            bestFriend = friendsData[i];
                         }
                     };
                 };
@@ -239,7 +244,8 @@
                 modal.style.display = "block";
                 span.onclick = function () {
                     modal.style.display = "none";
-                    $("#match").append()
+                    $("#match").append(bestFriend.name);
+                    $("#match").append("<img src=" + bestFriend.photoLink);
                 };
                 window.onclick = function (event) {
                     if (event.target == modal) {
