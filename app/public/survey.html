@@ -199,10 +199,12 @@
             $("input[type=radio][name=comics]:checked").val(),
             $("input[type=radio][name=starWars]:checked").val()]
         };
+        // console.log(newPerson);
 
 
         $.post("/api/friends", newPerson,
             function (data) {
+                console.log(newPerson);
                 // if (data) {
                 // var modal = $("#myModal");
                 // var span = $("#close")[0];
@@ -217,7 +219,6 @@
                 //     };
                 // };
                 friendMatch(newPerson);
-                console.log(newPerson);
                 // };
                 $("#friend-name").empty();
                 $("#friend-photo").empty();
@@ -228,16 +229,23 @@
     function friendMatch(a1) {
         $.ajax({ url: "/api/friends", method: "GET" })
             .then(function (friendsData) {
+                var bestScore = 99999;
+                var bestFriend = "";
                 for (i = 0; i < friendsData.length; i++) {
-                    if (friendsData.name != newPerson.name) {
+                    if (friendsData[i].name != newPerson.name) {
+                        var thisFriendScore = 0;
                         for (a = 0; a < friendsData[i].scores.length; a++) {
                             var b = parseInt(a1.score[a]);
                             var c = parseInt(friendData[i].scores[a]);
-                            var difference = Math.abs(b - c);
+                            thisFriendScore += Math.abs(b - c);
                             console.log(difference);
+                        }
+                        if (bestScore > thisFriendScore) {
+                            bestFriend = friendsData[i].name;
                         }
                     };
                 };
+                console.log(bestFriend);
             });
     };
 
