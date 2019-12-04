@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Friend Finder | Survey</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery.js"></script>
@@ -130,7 +131,7 @@
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <p id="match">Your best match is: </p>
+            <p id="results-modal">Your best match is: </p>
         </div>
     </div>
 
@@ -188,8 +189,8 @@
         var newPerson = {
             name: $("#friend-name").val().trim(),
             photoLink: $("#friend-photo").val().trim(),
-            scores: [$("input[type=radio][name='gaming']:checked").val(),
-            $("inpute[type=radio][name='adventure']:checked").val(),
+            scores: [$("input[type=radio][name=gaming]:checked").val(),
+            $("input[type=radio][name=adventure]:checked").val(),
             $("input[type=radio][name=horror]:checked").val(),
             $("input[type=radio][name=animals]:checked").val(),
             $("input[type=radio][name=pets]:checked").val(),
@@ -202,13 +203,12 @@
 
         $.post("/api/friends", newPerson,
             function (data) {
-                console.log(newPerson);
-                console.log('test')
-
                 if (data) {
-                    friendMatch(newPerson);
-                    console.log('test')
-
+                    friendMatch();
+                    console.log("it worked");
+                }
+                else {
+                    console.log("didn't work")
                 };
                 $("#friend-name").empty();
                 $("#friend-photo").empty();
@@ -217,51 +217,21 @@
     });
 
     function friendMatch() {
-        console.log('test')
-
         $.ajax({ url: "/api/friends", method: "GET" })
             .then(function (friendsData) {
-                var bestScore = 99999;
                 console.log('test');
-                var bestFriend = "";
-                var newPersonTotal;
-                for (d = 0; d < newPerson.scores.length; d++) {
-                    newPersonTotal += newPerson.scores[d];
-                }
-                for (i = 0; i < friendsData.length; i++) {
-                    if (friendsData[i].name != newPerson.name) {
-                        console.log('test')
-                        var thisFriendScore = 0;
-                        var scoreSum;
-                        for (a = 0; a < friendsData[i].scores.length; a++) {
-                            //var b = parseInt(a1.scores[a]);
-                            var b = parseInt(newPersonTotal);
-                            scoreSum += friendsData[i].scores[a];
-                            //var c = parseInt(friendData[i].scores[a]);
-                            var c = parseInt(scoreSum);
-                            thisFriendScore += Math.abs(b - c);
-                        }
-                        if (bestScore > thisFriendScore) {
-                            bestFriend = friendsData[i];
-                            console.log(bestFriend);
-                        }
-                        else{ 
-                            console.log(bestFriend)
-                        }
-                    };
-                };
-                var modal = $("#myModal");
-                var span = $("#close")[0];
-                modal.style.display = "block";
-                span.onclick = function () {
-                    modal.style.display = "none";
-                    $("#match").append(bestFriend.name);
-                    $("#match").append("<img src=" + bestFriend.photoLink);
-                };
+                $("#results-modal").modal("toggle");
+                // var modal = $("#myModal");
+                // var span = $("#close")[0];
+                // modal.style.display = "block";
+                // span.onclick = function () {
+                //     modal.style.display = "none";
+                //     $("#match").append(bestFriend.name);
+                //     $("#match").append("<img src=" + bestFriend.photoLink);
+                // };
                 window.onclick = function (event) {
                     if (event.target == modal) {
-                        modal.style.display = "none";
-                    };
+                        $("#results-modal").modal("toggle");                    };
                 };
             });
     };
