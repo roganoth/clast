@@ -203,8 +203,12 @@
         $.post("/api/friends", newPerson,
             function (data) {
                 console.log(newPerson);
+                console.log('test')
+
                 if (data) {
                     friendMatch(newPerson);
+                    console.log('test')
+
                 };
                 $("#friend-name").empty();
                 $("#friend-photo").empty();
@@ -212,10 +216,13 @@
             });
     });
 
-    function friendMatch(a1) {
+    function friendMatch() {
+        console.log('test')
+
         $.ajax({ url: "/api/friends", method: "GET" })
             .then(function (friendsData) {
                 var bestScore = 99999;
+                console.log('test');
                 var bestFriend = "";
                 var newPersonTotal;
                 for (d = 0; d < newPerson.scores.length; d++) {
@@ -223,6 +230,7 @@
                 }
                 for (i = 0; i < friendsData.length; i++) {
                     if (friendsData[i].name != newPerson.name) {
+                        console.log('test')
                         var thisFriendScore = 0;
                         var scoreSum;
                         for (a = 0; a < friendsData[i].scores.length; a++) {
@@ -235,10 +243,13 @@
                         }
                         if (bestScore > thisFriendScore) {
                             bestFriend = friendsData[i];
+                            console.log(bestFriend);
+                        }
+                        else{ 
+                            console.log(bestFriend)
                         }
                     };
                 };
-                console.log(bestFriend);
                 var modal = $("#myModal");
                 var span = $("#close")[0];
                 modal.style.display = "block";

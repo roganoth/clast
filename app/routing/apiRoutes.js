@@ -8,5 +8,6 @@ module.exports = function(app) {
     app.post("/api/friends", function(req, res){
         friendsData.push(req.body);
         console.log(friendsData);
+        res.status(200).end();
     });
 };
