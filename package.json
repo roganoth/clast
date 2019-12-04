@@ -1,14 +1,21 @@
 {
-  "name": "app",
+  "name": "clast",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "Friend Finder",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roganoth/clast.git"
   },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roganoth/clast/issues"
+  },
+  "homepage": "https://github.com/roganoth/clast#readme",
   "dependencies": {
     "express": "^4.17.1",
     "path": "^0.12.7"
