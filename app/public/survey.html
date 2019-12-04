@@ -178,9 +178,9 @@
                 else {
                     console.log("didn't work")
                 };
-                $("#friend-name").empty();
-                $("#friend-photo").empty();
-                $("input:radio").removeAttr("checked");
+                $("#friend-name").val("");
+                $("#friend-photo").val("");
+                $("radio").prop("checked", false);
             });
     });
 
